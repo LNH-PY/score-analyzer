@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考试成绩分析系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; padding: 28px 0; text-align: center; }
+        .header h1 { font-size: 28px; letter-spacing: 2px; }
+        .header p { margin-top: 8px; opacity: .85; font-size: 14px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+
+        /* 录入区域 */
+        .input-section { background: #fff; border-radius: 12px; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; }
+        .input-section h2 { font-size: 18px; margin-bottom: 16px; color: #444; border-left: 4px solid #667eea; padding-left: 10px; }
+        .exam-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 14px 0; border-bottom: 1px dashed #e8e8e8; }
+        .exam-row:last-child { border-bottom: none; }
+        .exam-name { font-weight: 600; min-width: 130px; color: #555; font-size: 15px; }
+        .subject-input { display: flex; align-items: center; gap: 4px; }
+        .subject-input label { font-size: 13px; color: #666; white-space: nowrap; }
+        .subject-input input { width: 64px; padding: 6px 8px; border: 1px solid #d9d9d9; border-radius: 6px; text-align: center; font-size: 14px; transition: border .2s; }
+        .subject-input input:focus { border-color: #667eea; outline: none; box-shadow: 0 0 0 2px rgba(102,126,234,.15); }
+
+        .btn-row { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn { padding: 10px 28px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; transition: all .2s; font-weight: 500; }
+        .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(102,126,234,.35); }
+        .btn-success { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #fff; }
+        .btn-success:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(67,233,123,.35); }
+        .btn-danger { background: #ff4d4f; color: #fff; }
+        .btn-danger:hover { background: #ff7875; }
+        .btn-outline { background: #fff; color: #667eea; border: 1px solid #667eea; }
+        .btn-outline:hover { background: #f5f0ff; }
+
+        /* 动态添加考试 */
+        .add-exam-area { margin-top: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .add-exam-area input { padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 14px; }
+        .add-exam-area input:focus { border-color: #667eea; outline: none; }
+
+        /* 图表区域 */
+        .chart-section { background: #fff; border-radius: 12px; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; }
+        .chart-section h2 { font-size: 18px; margin-bottom: 16px; color: #444; border-left: 4px solid #43e97b; padding-left: 10px; }
+        .chart-container { position: relative; height: 420px; }
+
+        /* 趋势分析 */
+        .analysis-section { background: #fff; border-radius: 12px; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; }
+        .analysis-section h2 { font-size: 18px; margin-bottom: 16px; color: #444; border-left: 4px solid #faad14; padding-left: 10px; }
+        .analysis-card { display: flex; flex-wrap: wrap; gap: 14px; }
+        .analysis-item { flex: 1; min-width: 220px; background: #fafafa; border-radius: 10px; padding: 16px; border: 1px solid #f0f0f0; }
+        .analysis-item .subject-title { font-weight: 600; font-size: 15px; margin-bottom: 8px; }
+        .analysis-item .trend-up { color: #52c41a; }
+        .analysis-item .trend-down { color: #ff4d4f; }
+        .analysis-item .trend-flat { color: #faad14; }
+        .analysis-item p { font-size: 13px; line-height: 1.8; color: #555; }
+        .analysis-item .arrow { font-size: 18px; margin-right: 4px; }
+
+        /* API Key 配置 */
+        .api-config { background: #fff; border-radius: 12px; padding: 16px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .api-config label { font-size: 14px; font-weight: 600; color: #555; white-space: nowrap; }
+        .api-config input { flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; font-family: monospace; }
+        .api-config input:focus { border-color: #667eea; outline: none; }
+        .api-config .status { font-size: 13px; padding: 4px 10px; border-radius: 4px; }
+        .api-config .status.ok { color: #52c41a; background: #f6ffed; }
+        .api-config .status.err { color: #ff4d4f; background: #fff2f0; }
+
+        /* AI 评价区域 */
+        .ai-section { background: linear-gradient(135deg, #f5f7fa, #c3cfe2); border-radius: 12px; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; }
+        .ai-section h2 { font-size: 18px; margin-bottom: 16px; color: #444; border-left: 4px solid #eb2f96; padding-left: 10px; }
+        .ai-content { background: #fff; border-radius: 10px; padding: 20px; font-size: 14px; line-height: 1.9; color: #333; white-space: pre-wrap; min-height: 80px; }
+        .ai-content.loading { color: #999; font-style: italic; }
+        .ai-content .error { color: #ff4d4f; }
+        .btn-ai { background: linear-gradient(135deg, #eb2f96, #722ed1); color: #fff; }
+        .btn-ai:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(235,47,150,.35); }
+        .btn-ai:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* 错题区域 */
+        .wrong-q-toggle { background: none; border: 1px dashed #d9d9d9; color: #888; padding: 5px 14px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all .2s; position: relative; }
+        .wrong-q-toggle:hover { border-color: #667eea; color: #667eea; }
+        .wrong-q-toggle.active { border-color: #faad14; color: #faad14; background: #fffbe6; }
+        .wrong-q-toggle .badge { display: inline-block; background: #ff4d4f; color: #fff; font-size: 11px; border-radius: 50%; width: 18px; height: 18px; line-height: 18px; text-align: center; margin-left: 4px; vertical-align: middle; }
+        .wrong-q-panel { display: none; width: 100%; margin-top: 10px; padding: 14px; background: #fafafa; border-radius: 8px; border: 1px solid #f0f0f0; }
+        .wrong-q-panel.open { display: block; }
+        .wrong-q-panel h4 { font-size: 13px; color: #888; margin-bottom: 12px; }
+        .wrong-q-subject { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f0f0f0; }
+        .wrong-q-subject:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .wrong-q-subject label { font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 6px; }
+        .wrong-q-imgs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; min-height: 20px; }
+        .wrong-q-img-wrap { position: relative; width: 80px; height: 80px; border-radius: 6px; overflow: hidden; border: 1px solid #e8e8e8; }
+        .wrong-q-img-wrap img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: transform .2s; }
+        .wrong-q-img-wrap img:hover { transform: scale(1.05); }
+        .wrong-q-img-wrap .del-img { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; background: rgba(255,77,79,.85); color: #fff; border: none; border-radius: 50%; font-size: 12px; line-height: 18px; text-align: center; cursor: pointer; padding: 0; }
+        .wrong-q-img-wrap .del-img:hover { background: #ff4d4f; }
+        .upload-btn { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; border: 1px dashed #bfbfbf; border-radius: 6px; background: #fff; color: #888; font-size: 13px; cursor: pointer; transition: all .2s; }
+        .upload-btn:hover { border-color: #667eea; color: #667eea; }
+        .exam-block { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px dashed #e8e8e8; }
+        .exam-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .exam-block-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .exam-block-header .exam-name { margin: 0; }
+
+        /* 图片预览大图 */
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.8); z-index: 9999; justify-content: center; align-items: center; cursor: pointer; }
+        .lightbox.show { display: flex; }
+        .lightbox img { max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 4px 30px rgba(0,0,0,.5); }
+
+        .empty-tip { text-align: center; color: #999; padding: 40px 0; font-size: 15px; }
+
+        @media (max-width: 600px) {
+            .exam-name { min-width: 100%; }
+            .chart-container { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 考试成绩分析系统</h1>
+        <p>批量录入各科成绩，生成趋势图表，分析发展走向</p>
+    </div>
+
+    <div class="container">
+        <!-- API Key 配置 -->
+        <div class="api-config">
+            <label>🔑 API Key：</label>
+            <input id="apiKey" type="password" placeholder="请输入 DashScope API Key" value="sk-ws-H.EIEDHLR.Vo73.MEUCIA8-O2B6GPQCEW0xWuUWYqvU1esOdPK_idlgIbwYORMjAiEAiL_OSdebZlER8Px7okB6XqGQvf_76KgzitGlO0Vsi4c">
+            <span id="apiStatus" class="status">已配置</span>
+        </div>
+
+        <!-- 成绩录入 -->
+        <div class="input-section">
+            <h2>成绩录入</h2>
+            <div id="examList"></div>
+
+            <div class="add-exam-area">
+                <input id="newExamName" type="text" placeholder="考试名称（如：期末考试）" style="width:180px">
+                <input id="newSubjectCount" type="number" placeholder="科目数" min="1" max="15" style="width:90px">
+                <button class="btn btn-outline" onclick="addExam()">＋ 添加考试</button>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn btn-success" onclick="generateChart()">📈 生成图表与分析</button>
+                <button class="btn btn-ai" id="btnAI" onclick="callAI()" disabled>🤖 AI 锐评</button>
+                <button class="btn btn-primary" onclick="saveData()" id="btnSave">💾 保存数据</button>
+                <button class="btn btn-danger" onclick="clearAll()">🗑 清空全部</button>
+                <span id="saveStatus" style="font-size:13px;color:#999;align-self:center;"></span>
+            </div>
+        </div>
+
+        <!-- 折线图 -->
+        <div class="chart-section" id="chartSection" style="display:none">
+            <h2>成绩趋势图</h2>
+            <div class="chart-container">
+                <canvas id="scoreChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 趋势分析 -->
+        <div class="analysis-section" id="analysisSection" style="display:none">
+            <h2>发展趋势分析</h2>
+            <div class="analysis-card" id="analysisCard"></div>
+        </div>
+
+        <!-- AI 智能评价 -->
+        <div class="ai-section" id="aiSection" style="display:none">
+            <h2>🤖 AI 锐评</h2>
+            <div class="ai-content" id="aiContent"></div>
+        </div>
+    </div>
+
+    <!-- 图片大图预览 -->
+    <div class="lightbox" id="lightbox" onclick="this.classList.remove('show')">
+        <img id="lightboxImg" src="" alt="预览">
+    </div>
+
+<script>
+// 颜色方案
+const COLORS = [
+    '#667eea','#f5222d','#52c41a','#faad14','#13c2c2',
+    '#eb2f96','#722ed1','#fa8c16','#2f54eb','#a0d911',
+    '#fa541c','#1890ff','#9254de','#fadb14','#36cfc9'
+];
+
+let examData = []; // [{name, subjects:[{label, score, wrongImages:[]}], }]
+let chartInstance = null;
+
+// 初始化：添加两场默认考试
+function init() {
+    addExamRow('第一次月考', ['语文','数学','英语','物理','化学'], ['','','','','']);
+    addExamRow('期中考试', ['语文','数学','英语','物理','化学'], ['','','','','']);
+}
+
+function addExamRow(name, subjects, scores) {
+    const idx = examData.length;
+    examData.push({
+        name,
+        subjects: subjects.map((s,i) => ({ label: s, score: scores[i] || '', wrongImages: [] }))
+    });
+    renderExamList();
+}
+
+function renderExamList() {
+    const container = document.getElementById('examList');
+    container.innerHTML = '';
+    examData.forEach((exam, ei) => {
+        const block = document.createElement('div');
+        block.className = 'exam-block';
+
+        // 考试头部
+        const header = document.createElement('div');
+        header.className = 'exam-block-header';
+        const nameDiv = document.createElement('span');
+        nameDiv.className = 'exam-name';
+        nameDiv.textContent = exam.name;
+        header.appendChild(nameDiv);
+
+        // 各科成绩输入
+        const scoresDiv = document.createElement('div');
+        scoresDiv.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;align-items:center;flex:1;';
+        exam.subjects.forEach((sub, si) => {
+            const div = document.createElement('div');
+            div.className = 'subject-input';
+            div.innerHTML = `<label>${sub.label}</label><input type="number" min="0" max="150" placeholder="—" value="${sub.score}">`;
+            div.querySelector('input').addEventListener('input', function() {
+                examData[ei].subjects[si].score = this.value;
+            });
+            scoresDiv.appendChild(div);
+        });
+        header.appendChild(scoresDiv);
+
+        // 错题展开按钮（带数量徽标）
+        const wqBtn = document.createElement('button');
+        wqBtn.className = 'wrong-q-toggle';
+        const totalImgs = exam.subjects.reduce((sum, s) => sum + s.wrongImages.length, 0);
+        wqBtn.innerHTML = '📝 错题' + (totalImgs > 0 ? `<span class="badge">${totalImgs}</span>` : '');
+        wqBtn.onclick = () => {
+            const panel = block.querySelector('.wrong-q-panel');
+            const isOpen = panel.classList.contains('open');
+            panel.classList.toggle('open');
+            wqBtn.classList.toggle('active');
+        };
+        header.appendChild(wqBtn);
+
+        // 删除按钮
+        const delBtn = document.createElement('button');
+        delBtn.className = 'btn btn-danger';
+        delBtn.style.cssText = 'padding:6px 14px;font-size:13px;';
+        delBtn.textContent = '删除';
+        delBtn.onclick = () => { examData.splice(ei, 1); renderExamList(); };
+        header.appendChild(delBtn);
+
+        block.appendChild(header);
+
+        // 错题图片录入面板
+        const panel = document.createElement('div');
+        panel.className = 'wrong-q-panel';
+        panel.innerHTML = '<h4>📷 拍照或上传各科错题图片（每科可多张）</h4>';
+        exam.subjects.forEach((sub, si) => {
+            const sDiv = document.createElement('div');
+            sDiv.className = 'wrong-q-subject';
+
+            const label = document.createElement('label');
+            label.textContent = sub.label;
+            sDiv.appendChild(label);
+
+            // 已上传图片缩略图
+            const imgsDiv = document.createElement('div');
+            imgsDiv.className = 'wrong-q-imgs';
+            sub.wrongImages.forEach((dataUrl, imgIdx) => {
+                const wrap = document.createElement('div');
+                wrap.className = 'wrong-q-img-wrap';
+                wrap.innerHTML = `<img src="${dataUrl}" onclick="showLightbox(this.src)"><button class="del-img" title="删除">×</button>`;
+                wrap.querySelector('.del-img').onclick = () => {
+                    examData[ei].subjects[si].wrongImages.splice(imgIdx, 1);
+                    renderExamList();
+                };
+                imgsDiv.appendChild(wrap);
+            });
+            sDiv.appendChild(imgsDiv);
+
+            // 上传按钮
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.multiple = true;
+            fileInput.style.display = 'none';
+            fileInput.onchange = function() {
+                const files = Array.from(this.files);
+                let loaded = 0;
+                files.forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        // 压缩图片
+                        compressImage(e.target.result, 800, 0.7, (compressed) => {
+                            examData[ei].subjects[si].wrongImages.push(compressed);
+                            loaded++;
+                            if (loaded === files.length) renderExamList();
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                });
+                this.value = '';
+            };
+            sDiv.appendChild(fileInput);
+
+            const uploadBtn = document.createElement('button');
+            uploadBtn.className = 'upload-btn';
+            uploadBtn.innerHTML = '📷 拍照/上传';
+            uploadBtn.onclick = () => fileInput.click();
+            sDiv.appendChild(uploadBtn);
+
+            panel.appendChild(sDiv);
+        });
+        block.appendChild(panel);
+
+        container.appendChild(block);
+    });
+}
+
+// 图片压缩
+function compressImage(dataUrl, maxWidth, quality, callback) {
+    const img = new Image();
+    img.onload = function() {
+        const canvas = document.createElement('canvas');
+        let w = img.width, h = img.height;
+        if (w > maxWidth) { h = h * maxWidth / w; w = maxWidth; }
+        canvas.width = w;
+        canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        callback(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = dataUrl;
+}
+
+// 大图预览
+function showLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('show');
+}
+
+function addExam() {
+    const nameInput = document.getElementById('newExamName');
+    const countInput = document.getElementById('newSubjectCount');
+    const name = nameInput.value.trim();
+    const count = parseInt(countInput.value);
+    if (!name) { alert('请输入考试名称'); return; }
+    if (!count || count < 1) { alert('请输入有效的科目数量'); return; }
+
+    // 取第一场考试的科目名作为参考
+    const refSubjects = examData.length > 0 ? examData[0].subjects.map(s => s.label) : [];
+    const subjects = [];
+    for (let i = 0; i < count; i++) {
+        subjects.push(refSubjects[i] || `科目${i + 1}`);
+    }
+    const scores = new Array(count).fill('');
+    addExamRow(name, subjects, scores);
+    nameInput.value = '';
+    countInput.value = '';
+}
+
+function clearAll() {
+    if (!confirm('确定清空所有数据？（包括服务器数据）')) return;
+    examData = [];
+    renderExamList();
+    document.getElementById('chartSection').style.display = 'none';
+    document.getElementById('analysisSection').style.display = 'none';
+    document.getElementById('aiSection').style.display = 'none';
+    if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+    init();
+    // 清空服务器数据
+    fetch('/api/exams', { method: 'DELETE' }).catch(() => {});
+}
+
+function generateChart() {
+    if (examData.length < 2) { alert('至少需要两场考试数据才能生成趋势图'); return; }
+
+    // 收集数据
+    const labels = examData.map(e => e.name);
+    const subjectCount = examData[0].subjects.length;
+
+    // 校验科目一致性
+    for (let i = 1; i < examData.length; i++) {
+        if (examData[i].subjects.length !== subjectCount) {
+            alert('各考试的科目数量不一致，无法生成对比图表，请检查数据。');
+            return;
+        }
+    }
+
+    // 构建数据集
+    const datasets = [];
+    const validData = []; // 用于趋势分析
+    for (let si = 0; si < subjectCount; si++) {
+        const subjectName = examData[0].subjects[si].label;
+        const data = [];
+        let hasData = false;
+        examData.forEach((exam, ei) => {
+            const val = exam.subjects[si].score;
+            if (val !== '' && val !== undefined) {
+                data.push(parseFloat(val));
+                hasData = true;
+            } else {
+                data.push(null);
+            }
+        });
+        if (hasData) {
+            datasets.push({
+                label: subjectName,
+                data: data,
+                borderColor: COLORS[si % COLORS.length],
+                backgroundColor: COLORS[si % COLORS.length] + '22',
+                borderWidth: 2.5,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                tension: 0.3,
+                spanGaps: true,
+                fill: false
+            });
+            validData.push({ name: subjectName, scores: data, color: COLORS[si % COLORS.length] });
+        }
+    }
+
+    if (datasets.length === 0) { alert('没有有效的成绩数据，请先录入成绩。'); return; }
+
+    // 渲染图表
+    document.getElementById('chartSection').style.display = 'block';
+    if (chartInstance) chartInstance.destroy();
+    const ctx = document.getElementById('scoreChart').getContext('2d');
+    chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top', labels: { font: { size: 13 }, usePointStyle: true, padding: 18 } },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y} 分`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    title: { display: true, text: '分数', font: { size: 13 } },
+                    grid: { color: '#f0f0f0' }
+                },
+                x: {
+                    title: { display: true, text: '考试', font: { size: 13 } },
+                    grid: { color: '#f5f5f5' }
+                }
+            },
+            interaction: { mode: 'index', intersect: false }
+        }
+    });
+
+    // 生成趋势分析
+    window._lastValidData = validData;
+    window._lastExamLabels = labels;
+    generateAnalysis(validData, labels);
+}
+
+function generateAnalysis(validData, examLabels) {
+    document.getElementById('analysisSection').style.display = 'block';
+    const card = document.getElementById('analysisCard');
+    card.innerHTML = '';
+
+    validData.forEach(sub => {
+        const scores = sub.scores.filter(v => v !== null);
+        if (scores.length < 2) {
+            card.innerHTML += `<div class="analysis-item">
+                <div class="subject-title" style="color:${sub.color}">${sub.name}</div>
+                <p class="trend-flat">数据不足，无法分析趋势。</p>
+            </div>`;
+            return;
+        }
+
+        const first = scores[0], last = scores[scores.length - 1];
+        const diff = last - first;
+        const max = Math.max(...scores), min = Math.min(...scores);
+        const avg = (scores.reduce((a,b) => a+b, 0) / scores.length).toFixed(1);
+
+        // 趋势判断
+        let trend, trendClass, arrow, desc;
+        if (Math.abs(diff) < 2) {
+            trend = '基本稳定'; trendClass = 'trend-flat'; arrow = '➡️';
+            desc = `${sub.name}成绩在 ${min}~${max} 分之间波动，整体保持稳定，建议继续保持当前学习节奏。`;
+        } else if (diff > 0) {
+            trend = '上升趋势'; trendClass = 'trend-up'; arrow = '📈';
+            desc = `${sub.name}成绩呈上升趋势，从 ${first} 分升至 ${last} 分，提高了 ${diff} 分。继续保持！`;
+        } else {
+            trend = '下降趋势'; trendClass = 'trend-down'; arrow = '📉';
+            desc = `${sub.name}成绩呈下降趋势，从 ${first} 分降至 ${last} 分，下降了 ${Math.abs(diff)} 分，建议加强该科目的复习。`;
+        }
+
+        card.innerHTML += `<div class="analysis-item">
+            <div class="subject-title" style="color:${sub.color}">${arrow} ${sub.name}：${trend}</div>
+            <p class="${trendClass}">最新成绩：<strong>${last}</strong> 分 | 最高：<strong>${max}</strong> 分 | 最低：<strong>${min}</strong> 分 | 平均：<strong>${avg}</strong> 分</p>
+            <p>${desc}</p>
+        </div>`;
+    });
+}
+
+init();
+
+// 保存最新一次生成的数据，供 AI 评价使用
+let lastValidData = null;
+let lastExamLabels = null;
+
+// 在 generateChart 末尾启用 AI 按钮
+const origGenerate = generateChart;
+generateChart = function() {
+    origGenerate();
+    lastValidData = window._lastValidData || null;
+    lastExamLabels = window._lastExamLabels || null;
+    const btn = document.getElementById('btnAI');
+    if (lastValidData && lastExamLabels) {
+        btn.disabled = false;
+    }
+};
+
+// 调用通义千问 AI 评价
+async function callAI() {
+    const apiKey = document.getElementById('apiKey').value.trim();
+    if (!apiKey) {
+        alert('请先配置 API Key');
+        return;
+    }
+    if (!lastValidData || !lastExamLabels) {
+        alert('请先生成图表');
+        return;
+    }
+
+    const btn = document.getElementById('btnAI');
+    const section = document.getElementById('aiSection');
+    const content = document.getElementById('aiContent');
+
+    section.style.display = 'block';
+    content.className = 'ai-content loading';
+    content.textContent = '🤔 AI 正在分析成绩数据，请稍候...';
+    btn.disabled = true;
+    btn.textContent = '⏳ 分析中...';
+
+    // 构建 prompt
+    let prompt = '以下是学生多次考试的成绩和错题数据，请进行“锐评”式分析。\n\n';
+    prompt += '考试：' + lastExamLabels.join(' → ') + '\n\n';
+    prompt += '各科成绩：\n';
+    lastValidData.forEach(sub => {
+        const scores = sub.scores.filter(v => v !== null);
+        prompt += `- ${sub.name}：${scores.join(' → ')}\n`;
+    });
+
+    // 收集错题图片数据
+    let hasWrongQ = false;
+    let wrongQText = '\n错题图片记录：\n';
+    examData.forEach(exam => {
+        let examWrong = '';
+        exam.subjects.forEach(sub => {
+            if (sub.wrongImages && sub.wrongImages.length > 0) {
+                examWrong += `  - ${sub.name}：${sub.wrongImages.length} 张错题图片\n`;
+            }
+        });
+        if (examWrong) {
+            wrongQText += `【${exam.name}】\n${examWrong}`;
+            hasWrongQ = true;
+        }
+    });
+    if (hasWrongQ) {
+        prompt += wrongQText;
+        prompt += '（学生已上传错题图片，请根据错题数量和科目分布推测薄弱点）\n';
+    }
+
+    prompt += '\n要求：\n';
+    prompt += '1. 说话要精简、直接、不废话，不要客套和鼓舞\n';
+    prompt += '2. 锐评风格：直言不讳指出问题，不要温柔安慰\n';
+    prompt += '3. 每科用一句话点评趋势，一针见血\n';
+    prompt += '4. 如果有错题数据，结合错题指出知识薄弱点\n';
+    prompt += '5. 最后给 3 条最关键的改进建议，每条不超过 20 字\n';
+    prompt += '6. 总字数控制在 300 字以内';
+
+    try {
+        const response = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + apiKey
+            },
+            body: JSON.stringify({
+                model: 'qwen-plus',
+                messages: [
+                    { role: 'system', content: '你是一位严格但负责的“毒舌”教师，说话精简直接，一针见血。不客套、不鼓舞、不废话。指出问题要狠，给建议要准。' },
+                    { role: 'user', content: prompt }
+                ],
+                temperature: 0.7,
+                max_tokens: 3000
+            })
+        });
+
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.message || `HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        const aiText = data.choices[0].message.content;
+
+        content.className = 'ai-content';
+        content.textContent = aiText;
+
+        // 更新 API 状态
+        document.getElementById('apiStatus').textContent = '✓ 连接成功';
+        document.getElementById('apiStatus').className = 'status ok';
+
+    } catch (err) {
+        content.className = 'ai-content';
+        content.innerHTML = '<span class="error">❌ AI 调用失败：' + err.message + '</span>';
+        document.getElementById('apiStatus').textContent = '✗ 调用失败';
+        document.getElementById('apiStatus').className = 'status err';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '🤖 AI 锐评';
+    }
+}
+
+// 保存数据到服务器
+async function saveData() {
+    const btn = document.getElementById('btnSave');
+    const status = document.getElementById('saveStatus');
+    btn.disabled = true;
+    btn.textContent = '⏳ 保存中...';
+    status.textContent = '';
+
+    const payload = examData.map(exam => ({
+        name: exam.name,
+        subjects: exam.subjects.map(sub => ({
+            label: sub.label,
+            score: sub.score,
+            wrongImages: sub.wrongImages || []
+        }))
+    }));
+
+    try {
+        const res = await fetch('/api/exams', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        status.textContent = '✓ 已保存 ' + new Date().toLocaleTimeString();
+        status.style.color = '#52c41a';
+    } catch (err) {
+        status.textContent = '✗ 保存失败：' + err.message;
+        status.style.color = '#ff4d4f';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '💾 保存数据';
+    }
+}
+
+// 从服务器加载数据
+async function loadData() {
+    const status = document.getElementById('saveStatus');
+    try {
+        const res = await fetch('/api/exams');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (data.length > 0) {
+            examData = data.map(exam => ({
+                name: exam.name,
+                subjects: exam.subjects.map(sub => ({
+                    label: sub.label,
+                    score: sub.score || '',
+                    wrongImages: sub.wrongImages || []
+                }))
+            }));
+            renderExamList();
+            status.textContent = '✓ 已加载历史数据';
+            status.style.color = '#52c41a';
+        }
+    } catch (err) {
+        console.log('加载数据失败，使用默认数据', err);
+    }
+}
+
+// 启动时从服务器加载
+loadData();
+</script>
+</body>
+</html>

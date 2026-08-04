@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: score-analyzer
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: DB_PATH
+        value: /data/scores.db
+      - key: PORT
+        value: 10000
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
