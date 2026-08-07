@@ -624,6 +624,23 @@ async function callAI() {
 }
 
 // 保存数据到服务器
+const LOCAL_DATA_KEY = 'score-analyzer-exam-data';
+
+function restoreLocalData() {
+    try {
+        const localData = JSON.parse(localStorage.getItem(LOCAL_DATA_KEY) || 'null');
+        if (Array.isArray(localData) && localData.length > 0) {
+            examData = localData;
+            renderExamList();
+            const status = document.getElementById('saveStatus');
+            status.textContent = '✓ 已加载本机备份';
+            status.style.color = '#faad14';
+        }
+    } catch (err) {
+        console.log('本机备份读取失败', err);
+    }
+}
+
 async function saveData() {
     const btn = document.getElementById('btnSave');
     const status = document.getElementById('saveStatus');
@@ -639,6 +656,7 @@ async function saveData() {
             wrongImages: sub.wrongImages || []
         }))
     }));
+    localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(payload));
 
     try {
         const res = await fetch('/api/exams', {
@@ -685,6 +703,7 @@ async function loadData() {
 }
 
 // 启动时从服务器加载
+restoreLocalData();
 loadData();
 </script>
 </body>
