@@ -2,6 +2,8 @@ import os
 import json
 import sqlite3
 import base64
+import urllib.error
+import urllib.request
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
@@ -45,6 +47,8 @@ def init_db():
     conn.close()
 
 # 前端页面
+init_db()
+
 @app.route('/')
 def index():
     return send_from_directory('static', 'index.html')
@@ -127,6 +131,40 @@ def clear_exams():
     conn.commit()
     conn.close()
     return jsonify({'success': True})
+
+@app.route('/api/ai', methods=['POST'])
+def ai_proxy():
+    api_key = os.environ.get('DASHSCOPE_API_KEY', '').strip()
+    if not api_key:
+        return jsonify({'error': 'DASHSCOPE_API_KEY is not configured on the server'}), 503
+
+    payload = request.get_json(silent=True)
+    if not isinstance(payload, dict):
+        return jsonify({'error': 'Invalid request body'}), 400
+
+    body = json.dumps(payload).encode('utf-8')
+    upstream_request = urllib.request.Request(
+        'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
+        data=body,
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {api_key}'
+        },
+        method='POST'
+    )
+
+    try:
+        with urllib.request.urlopen(upstream_request, timeout=60) as upstream_response:
+            result = json.loads(upstream_response.read().decode('utf-8'))
+            return jsonify(result), upstream_response.status
+    except urllib.error.HTTPError as error:
+        error_body = error.read().decode('utf-8', errors='replace')
+        try:
+            return jsonify(json.loads(error_body)), error.code
+        except json.JSONDecodeError:
+            return jsonify({'error': error_body or 'DashScope request failed'}), error.code
+    except (urllib.error.URLError, TimeoutError) as error:
+        return jsonify({'error': f'AI upstream request failed: {error}'}), 502
 
 if __name__ == '__main__':
     init_db()
