@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鑰冭瘯鎴愮哗鍒嗘瀽绯荤粺</title>
+    <title>&#x8003;&#x8BD5;&#x6210;&#x7EE9;&#x5206;&#x6790;&#x7CFB;&#x7EDF;</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -13,7 +13,7 @@
         .header p { margin-top: 8px; opacity: .85; font-size: 14px; }
         .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
 
-        /* 褰曞叆鍖哄煙 */
+        /* &#x5F55;&#x5165;&#x533A;&#x57DF; */
         .input-section { background: #fff; border-radius: 12px; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; }
         .input-section h2 { font-size: 18px; margin-bottom: 16px; color: #444; border-left: 4px solid #667eea; padding-left: 10px; }
         .exam-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 14px 0; border-bottom: 1px dashed #e8e8e8; }
@@ -35,17 +35,17 @@
         .btn-outline { background: #fff; color: #667eea; border: 1px solid #667eea; }
         .btn-outline:hover { background: #f5f0ff; }
 
-        /* 鍔ㄦ€佹坊鍔犺€冭瘯 */
+        /* &#x52A8;&#x6001;&#x6DFB;&#x52A0;&#x8003;&#x8BD5; */
         .add-exam-area { margin-top: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         .add-exam-area input { padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 14px; }
         .add-exam-area input:focus { border-color: #667eea; outline: none; }
 
-        /* 鍥捐〃鍖哄煙 */
+        /* &#x56FE;&#x8868;&#x533A;&#x57DF; */
         .chart-section { background: #fff; border-radius: 12px; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; }
         .chart-section h2 { font-size: 18px; margin-bottom: 16px; color: #444; border-left: 4px solid #43e97b; padding-left: 10px; }
         .chart-container { position: relative; height: 420px; }
 
-        /* 瓒嬪娍鍒嗘瀽 */
+        /* &#x8D8B;&#x52BF;&#x5206;&#x6790; */
         .analysis-section { background: #fff; border-radius: 12px; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; }
         .analysis-section h2 { font-size: 18px; margin-bottom: 16px; color: #444; border-left: 4px solid #faad14; padding-left: 10px; }
         .analysis-card { display: flex; flex-wrap: wrap; gap: 14px; }
@@ -57,7 +57,7 @@
         .analysis-item p { font-size: 13px; line-height: 1.8; color: #555; }
         .analysis-item .arrow { font-size: 18px; margin-right: 4px; }
 
-        /* API Key 閰嶇疆 */
+        /* API Key &#x914D;&#x7F6E; */
         .api-config { background: #fff; border-radius: 12px; padding: 16px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .api-config label { font-size: 14px; font-weight: 600; color: #555; white-space: nowrap; }
         .api-config input { flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; font-family: monospace; }
@@ -66,7 +66,7 @@
         .api-config .status.ok { color: #52c41a; background: #f6ffed; }
         .api-config .status.err { color: #ff4d4f; background: #fff2f0; }
 
-        /* AI 璇勪环鍖哄煙 */
+        /* AI &#x8BC4;&#x4EF7;&#x533A;&#x57DF; */
         .ai-section { background: linear-gradient(135deg, #f5f7fa, #c3cfe2); border-radius: 12px; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px; }
         .ai-section h2 { font-size: 18px; margin-bottom: 16px; color: #444; border-left: 4px solid #eb2f96; padding-left: 10px; }
         .ai-content { background: #fff; border-radius: 10px; padding: 20px; font-size: 14px; line-height: 1.9; color: #333; white-space: pre-wrap; min-height: 80px; }
@@ -76,7 +76,7 @@
         .btn-ai:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(235,47,150,.35); }
         .btn-ai:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* 閿欓鍖哄煙 */
+        /* &#x9519;&#x9898;&#x533A;&#x57DF; */
         .wrong-q-toggle { background: none; border: 1px dashed #d9d9d9; color: #888; padding: 5px 14px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all .2s; position: relative; }
         .wrong-q-toggle:hover { border-color: #667eea; color: #667eea; }
         .wrong-q-toggle.active { border-color: #faad14; color: #faad14; background: #fffbe6; }
@@ -100,7 +100,7 @@
         .exam-block-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .exam-block-header .exam-name { margin: 0; }
 
-        /* 鍥剧墖棰勮澶у浘 */
+        /* &#x56FE;&#x7247;&#x9884;&#x89C8;&#x5927;&#x56FE; */
         .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.8); z-index: 9999; justify-content: center; align-items: center; cursor: pointer; }
         .lightbox.show { display: flex; }
         .lightbox img { max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 4px 30px rgba(0,0,0,.5); }
@@ -115,66 +115,66 @@
 </head>
 <body>
     <div class="header">
-        <h1>馃搳 鑰冭瘯鎴愮哗鍒嗘瀽绯荤粺</h1>
-        <p>鎵归噺褰曞叆鍚勭鎴愮哗锛岀敓鎴愯秼鍔垮浘琛紝鍒嗘瀽鍙戝睍璧板悜</p>
+        <h1>&#x1F4CA; &#x8003;&#x8BD5;&#x6210;&#x7EE9;&#x5206;&#x6790;&#x7CFB;&#x7EDF;</h1>
+        <p>&#x6279;&#x91CF;&#x5F55;&#x5165;&#x5404;&#x79D1;&#x6210;&#x7EE9;&#xFF0C;&#x751F;&#x6210;&#x8D8B;&#x52BF;&#x56FE;&#x8868;&#xFF0C;&#x5206;&#x6790;&#x53D1;&#x5C55;&#x8D70;&#x5411;</p>
     </div>
 
     <div class="container">
-        <!-- API Key 閰嶇疆 -->
+        <!-- API Key &#x914D;&#x7F6E; -->
         <div class="api-config">
-            <label>馃攽 API Key锛?/label>
+            <label>&#x1F511; API Key&#xFF1A;</label>
             <input id="apiKey" type="hidden" value="server">
-            <span id="apiStatus" class="status">宸查厤缃?/span>
+            <span id="apiStatus" class="status">&#x5DF2;&#x914D;&#x7F6E;</span>
         </div>
 
-        <!-- 鎴愮哗褰曞叆 -->
+        <!-- &#x6210;&#x7EE9;&#x5F55;&#x5165; -->
         <div class="input-section">
-            <h2>鎴愮哗褰曞叆</h2>
+            <h2>&#x6210;&#x7EE9;&#x5F55;&#x5165;</h2>
             <div id="examList"></div>
 
             <div class="add-exam-area">
-                <input id="newExamName" type="text" placeholder="鑰冭瘯鍚嶇О锛堝锛氭湡鏈€冭瘯锛? style="width:180px">
-                <input id="newSubjectCount" type="number" placeholder="绉戠洰鏁? min="1" max="15" style="width:90px">
-                <button class="btn btn-outline" onclick="addExam()">锛?娣诲姞鑰冭瘯</button>
+                <input id="newExamName" type="text" placeholder="&#x8003;&#x8BD5;&#x540D;&#x79F0;&#xFF08;&#x5982;&#xFF1A;&#x671F;&#x672B;&#x8003;&#x8BD5;&#xFF09;" style="width:180px">
+                <input id="newSubjectCount" type="number" placeholder="&#x79D1;&#x76EE;&#x6570;" min="1" max="15" style="width:90px">
+                <button class="btn btn-outline" onclick="addExam()">&#xFF0B; &#x6DFB;&#x52A0;&#x8003;&#x8BD5;</button>
             </div>
 
             <div class="btn-row">
-                <button class="btn btn-success" onclick="generateChart()">馃搱 鐢熸垚鍥捐〃涓庡垎鏋?/button>
-                <button class="btn btn-ai" id="btnAI" onclick="callAI()" disabled>馃 AI 閿愯瘎</button>
-                <button class="btn btn-primary" onclick="saveData()" id="btnSave">馃捑 淇濆瓨鏁版嵁</button>
-                <button class="btn btn-danger" onclick="clearAll()">馃棏 娓呯┖鍏ㄩ儴</button>
+                <button class="btn btn-success" onclick="generateChart()">&#x1F4C8; &#x751F;&#x6210;&#x56FE;&#x8868;&#x4E0E;&#x5206;&#x6790;</button>
+                <button class="btn btn-ai" id="btnAI" onclick="callAI()" disabled>&#x1F916; AI &#x9510;&#x8BC4;</button>
+                <button class="btn btn-primary" onclick="saveData()" id="btnSave">&#x1F4BE; &#x4FDD;&#x5B58;&#x6570;&#x636E;</button>
+                <button class="btn btn-danger" onclick="clearAll()">&#x1F5D1; &#x6E05;&#x7A7A;&#x5168;&#x90E8;</button>
                 <span id="saveStatus" style="font-size:13px;color:#999;align-self:center;"></span>
             </div>
         </div>
 
-        <!-- 鎶樼嚎鍥?-->
+        <!-- &#x6298;&#x7EBF;&#x56FE; -->
         <div class="chart-section" id="chartSection" style="display:none">
-            <h2>鎴愮哗瓒嬪娍鍥?/h2>
+            <h2>&#x6210;&#x7EE9;&#x8D8B;&#x52BF;&#x56FE;</h2>
             <div class="chart-container">
                 <canvas id="scoreChart"></canvas>
             </div>
         </div>
 
-        <!-- 瓒嬪娍鍒嗘瀽 -->
+        <!-- &#x8D8B;&#x52BF;&#x5206;&#x6790; -->
         <div class="analysis-section" id="analysisSection" style="display:none">
-            <h2>鍙戝睍瓒嬪娍鍒嗘瀽</h2>
+            <h2>&#x53D1;&#x5C55;&#x8D8B;&#x52BF;&#x5206;&#x6790;</h2>
             <div class="analysis-card" id="analysisCard"></div>
         </div>
 
-        <!-- AI 鏅鸿兘璇勪环 -->
+        <!-- AI &#x667A;&#x80FD;&#x8BC4;&#x4EF7; -->
         <div class="ai-section" id="aiSection" style="display:none">
-            <h2>馃 AI 閿愯瘎</h2>
+            <h2>&#x1F916; AI &#x9510;&#x8BC4;</h2>
             <div class="ai-content" id="aiContent"></div>
         </div>
     </div>
 
-    <!-- 鍥剧墖澶у浘棰勮 -->
+    <!-- &#x56FE;&#x7247;&#x5927;&#x56FE;&#x9884;&#x89C8; -->
     <div class="lightbox" id="lightbox" onclick="this.classList.remove('show')">
-        <img id="lightboxImg" src="" alt="棰勮">
+        <img id="lightboxImg" src="" alt="&#x9884;&#x89C8;">
     </div>
 
 <script>
-// 棰滆壊鏂规
+// \u989C\u8272\u65B9\u6848
 const COLORS = [
     '#667eea','#f5222d','#52c41a','#faad14','#13c2c2',
     '#eb2f96','#722ed1','#fa8c16','#2f54eb','#a0d911',
@@ -184,12 +184,12 @@ const COLORS = [
 let examData = []; // [{name, subjects:[{label, score, wrongImages:[]}], }]
 let chartInstance = null;
 const LOCAL_DATA_KEY = 'score-analyzer-exam-data';
-const DEFAULT_SUBJECTS = ['璇枃', '鏁板', '鑻辫', '鐗╃悊', '鍖栧', '鍘嗗彶', '閬撴硶'];
+const DEFAULT_SUBJECTS = ['\u8BED\u6587', '\u6570\u5B66', '\u82F1\u8BED', '\u7269\u7406', '\u5316\u5B66', '\u5386\u53F2', '\u9053\u6CD5'];
 
-// 鍒濆鍖栵細娣诲姞涓ゅ満榛樿鑰冭瘯
+// \u521D\u59CB\u5316\uFF1A\u6DFB\u52A0\u4E24\u573A\u9ED8\u8BA4\u8003\u8BD5
 function init() {
-    addExamRow('绗竴娆℃湀鑰?, DEFAULT_SUBJECTS, ['', '', '', '', '', '', '']);
-    addExamRow('鏈熶腑鑰冭瘯', DEFAULT_SUBJECTS, ['', '', '', '', '', '', '']);
+    addExamRow('\u7B2C\u4E00\u6B21\u6708\u8003', DEFAULT_SUBJECTS, ['', '', '', '', '', '', '']);
+    addExamRow('\u671F\u4E2D\u8003\u8BD5', DEFAULT_SUBJECTS, ['', '', '', '', '', '', '']);
 }
 
 function ensureDefaultSubjects(data) {
@@ -221,7 +221,7 @@ function renderExamList() {
         const block = document.createElement('div');
         block.className = 'exam-block';
 
-        // 鑰冭瘯澶撮儴
+        // \u8003\u8BD5\u5934\u90E8
         const header = document.createElement('div');
         header.className = 'exam-block-header';
         const nameDiv = document.createElement('span');
@@ -229,13 +229,13 @@ function renderExamList() {
         nameDiv.textContent = exam.name;
         header.appendChild(nameDiv);
 
-        // 鍚勭鎴愮哗杈撳叆
+        // \u5404\u79D1\u6210\u7EE9\u8F93\u5165
         const scoresDiv = document.createElement('div');
         scoresDiv.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;align-items:center;flex:1;';
         exam.subjects.forEach((sub, si) => {
             const div = document.createElement('div');
             div.className = 'subject-input';
-            div.innerHTML = `<label>${sub.label}</label><input type="number" min="0" max="150" placeholder="鈥? value="${sub.score}">`;
+            div.innerHTML = `<label>${sub.label}</label><input type="number" min="0" max="150" placeholder="\u2014" value="${sub.score}">`;
             div.querySelector('input').addEventListener('input', function() {
                 examData[ei].subjects[si].score = this.value;
                 saveLocalData();
@@ -244,11 +244,11 @@ function renderExamList() {
         });
         header.appendChild(scoresDiv);
 
-        // 閿欓灞曞紑鎸夐挳锛堝甫鏁伴噺寰芥爣锛?
+        // \u9519\u9898\u5C55\u5F00\u6309\u94AE\uFF08\u5E26\u6570\u91CF\u5FBD\u6807\uFF09
         const wqBtn = document.createElement('button');
         wqBtn.className = 'wrong-q-toggle';
         const totalImgs = exam.subjects.reduce((sum, s) => sum + s.wrongImages.length, 0);
-        wqBtn.innerHTML = '馃摑 閿欓' + (totalImgs > 0 ? `<span class="badge">${totalImgs}</span>` : '');
+        wqBtn.innerHTML = '\u{1F4DD} \u9519\u9898' + (totalImgs > 0 ? `<span class="badge">${totalImgs}</span>` : '');
         wqBtn.onclick = () => {
             const panel = block.querySelector('.wrong-q-panel');
             const isOpen = panel.classList.contains('open');
@@ -257,20 +257,20 @@ function renderExamList() {
         };
         header.appendChild(wqBtn);
 
-        // 鍒犻櫎鎸夐挳
+        // \u5220\u9664\u6309\u94AE
         const delBtn = document.createElement('button');
         delBtn.className = 'btn btn-danger';
         delBtn.style.cssText = 'padding:6px 14px;font-size:13px;';
-        delBtn.textContent = '鍒犻櫎';
+        delBtn.textContent = '\u5220\u9664';
         delBtn.onclick = () => { examData.splice(ei, 1); renderExamList(); saveLocalData(); };
         header.appendChild(delBtn);
 
         block.appendChild(header);
 
-        // 閿欓鍥剧墖褰曞叆闈㈡澘
+        // \u9519\u9898\u56FE\u7247\u5F55\u5165\u9762\u677F
         const panel = document.createElement('div');
         panel.className = 'wrong-q-panel';
-        panel.innerHTML = '<h4>馃摲 鎷嶇収鎴栦笂浼犲悇绉戦敊棰樺浘鐗囷紙姣忕鍙寮狅級</h4>';
+        panel.innerHTML = '<h4>\u{1F4F7} \u62CD\u7167\u6216\u4E0A\u4F20\u5404\u79D1\u9519\u9898\u56FE\u7247\uFF08\u6BCF\u79D1\u53EF\u591A\u5F20\uFF09</h4>';
         exam.subjects.forEach((sub, si) => {
             const sDiv = document.createElement('div');
             sDiv.className = 'wrong-q-subject';
@@ -279,13 +279,13 @@ function renderExamList() {
             label.textContent = sub.label;
             sDiv.appendChild(label);
 
-            // 宸蹭笂浼犲浘鐗囩缉鐣ュ浘
+            // \u5DF2\u4E0A\u4F20\u56FE\u7247\u7F29\u7565\u56FE
             const imgsDiv = document.createElement('div');
             imgsDiv.className = 'wrong-q-imgs';
             sub.wrongImages.forEach((dataUrl, imgIdx) => {
                 const wrap = document.createElement('div');
                 wrap.className = 'wrong-q-img-wrap';
-                wrap.innerHTML = `<img src="${dataUrl}" onclick="showLightbox(this.src)"><button class="del-img" title="鍒犻櫎">脳</button>`;
+                wrap.innerHTML = `<img src="${dataUrl}" onclick="showLightbox(this.src)"><button class="del-img" title="\u5220\u9664">\u00D7</button>`;
                 wrap.querySelector('.del-img').onclick = () => {
                     examData[ei].subjects[si].wrongImages.splice(imgIdx, 1);
                     renderExamList();
@@ -295,7 +295,7 @@ function renderExamList() {
             });
             sDiv.appendChild(imgsDiv);
 
-            // 涓婁紶鎸夐挳
+            // \u4E0A\u4F20\u6309\u94AE
             const fileInput = document.createElement('input');
             fileInput.type = 'file';
             fileInput.accept = 'image/*';
@@ -307,7 +307,7 @@ function renderExamList() {
                 files.forEach(file => {
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        // 鍘嬬缉鍥剧墖
+                        // \u538B\u7F29\u56FE\u7247
                         compressImage(e.target.result, 800, 0.7, (compressed) => {
                             examData[ei].subjects[si].wrongImages.push(compressed);
                             loaded++;
@@ -325,7 +325,7 @@ function renderExamList() {
 
             const uploadBtn = document.createElement('button');
             uploadBtn.className = 'upload-btn';
-            uploadBtn.innerHTML = '馃摲 鎷嶇収/涓婁紶';
+            uploadBtn.innerHTML = '\u{1F4F7} \u62CD\u7167/\u4E0A\u4F20';
             uploadBtn.onclick = () => fileInput.click();
             sDiv.appendChild(uploadBtn);
 
@@ -337,7 +337,7 @@ function renderExamList() {
     });
 }
 
-// 鍥剧墖鍘嬬缉
+// \u56FE\u7247\u538B\u7F29
 function compressImage(dataUrl, maxWidth, quality, callback) {
     const img = new Image();
     img.onload = function() {
@@ -352,7 +352,7 @@ function compressImage(dataUrl, maxWidth, quality, callback) {
     img.src = dataUrl;
 }
 
-// 澶у浘棰勮
+// \u5927\u56FE\u9884\u89C8
 function showLightbox(src) {
     document.getElementById('lightboxImg').src = src;
     document.getElementById('lightbox').classList.add('show');
@@ -363,14 +363,14 @@ function addExam() {
     const countInput = document.getElementById('newSubjectCount');
     const name = nameInput.value.trim();
     const count = parseInt(countInput.value);
-    if (!name) { alert('璇疯緭鍏ヨ€冭瘯鍚嶇О'); return; }
-    if (!count || count < 1) { alert('璇疯緭鍏ユ湁鏁堢殑绉戠洰鏁伴噺'); return; }
+    if (!name) { alert('\u8BF7\u8F93\u5165\u8003\u8BD5\u540D\u79F0'); return; }
+    if (!count || count < 1) { alert('\u8BF7\u8F93\u5165\u6709\u6548\u7684\u79D1\u76EE\u6570\u91CF'); return; }
 
-    // 鍙栫涓€鍦鸿€冭瘯鐨勭鐩悕浣滀负鍙傝€?
+    // \u53D6\u7B2C\u4E00\u573A\u8003\u8BD5\u7684\u79D1\u76EE\u540D\u4F5C\u4E3A\u53C2\u8003
     const refSubjects = examData.length > 0 ? examData[0].subjects.map(s => s.label) : DEFAULT_SUBJECTS;
     const subjects = [];
     for (let i = 0; i < count; i++) {
-        subjects.push(refSubjects[i] || `绉戠洰${i + 1}`);
+        subjects.push(refSubjects[i] || `\u79D1\u76EE${i + 1}`);
     }
     const scores = new Array(count).fill('');
     addExamRow(name, subjects, scores);
@@ -379,7 +379,7 @@ function addExam() {
 }
 
 function clearAll() {
-    if (!confirm('纭畾娓呯┖鎵€鏈夋暟鎹紵锛堝寘鎷湇鍔″櫒鏁版嵁锛?)) return;
+    if (!confirm('\u786E\u5B9A\u6E05\u7A7A\u6240\u6709\u6570\u636E\uFF1F\uFF08\u5305\u62EC\u670D\u52A1\u5668\u6570\u636E\uFF09')) return;
     examData = [];
     renderExamList();
     document.getElementById('chartSection').style.display = 'none';
@@ -388,28 +388,28 @@ function clearAll() {
     if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
     localStorage.removeItem(LOCAL_DATA_KEY);
     init();
-    // 娓呯┖鏈嶅姟鍣ㄦ暟鎹?
+    // \u6E05\u7A7A\u670D\u52A1\u5668\u6570\u636E
     fetch('/api/exams', { method: 'DELETE' }).catch(() => {});
 }
 
 function generateChart() {
-    if (examData.length < 2) { alert('鑷冲皯闇€瑕佷袱鍦鸿€冭瘯鏁版嵁鎵嶈兘鐢熸垚瓒嬪娍鍥?); return; }
+    if (examData.length < 2) { alert('\u81F3\u5C11\u9700\u8981\u4E24\u573A\u8003\u8BD5\u6570\u636E\u624D\u80FD\u751F\u6210\u8D8B\u52BF\u56FE'); return; }
 
-    // 鏀堕泦鏁版嵁
+    // \u6536\u96C6\u6570\u636E
     const labels = examData.map(e => e.name);
     const subjectCount = examData[0].subjects.length;
 
-    // 鏍￠獙绉戠洰涓€鑷存€?
+    // \u6821\u9A8C\u79D1\u76EE\u4E00\u81F4\u6027
     for (let i = 1; i < examData.length; i++) {
         if (examData[i].subjects.length !== subjectCount) {
-            alert('鍚勮€冭瘯鐨勭鐩暟閲忎笉涓€鑷达紝鏃犳硶鐢熸垚瀵规瘮鍥捐〃锛岃妫€鏌ユ暟鎹€?);
+            alert('\u5404\u8003\u8BD5\u7684\u79D1\u76EE\u6570\u91CF\u4E0D\u4E00\u81F4\uFF0C\u65E0\u6CD5\u751F\u6210\u5BF9\u6BD4\u56FE\u8868\uFF0C\u8BF7\u68C0\u67E5\u6570\u636E\u3002');
             return;
         }
     }
 
-    // 鏋勫缓鏁版嵁闆?
+    // \u6784\u5EFA\u6570\u636E\u96C6
     const datasets = [];
-    const validData = []; // 鐢ㄤ簬瓒嬪娍鍒嗘瀽
+    const validData = []; // \u7528\u4E8E\u8D8B\u52BF\u5206\u6790
     for (let si = 0; si < subjectCount; si++) {
         const subjectName = examData[0].subjects[si].label;
         const data = [];
@@ -440,9 +440,9 @@ function generateChart() {
         }
     }
 
-    if (datasets.length === 0) { alert('娌℃湁鏈夋晥鐨勬垚缁╂暟鎹紝璇峰厛褰曞叆鎴愮哗銆?); return; }
+    if (datasets.length === 0) { alert('\u6CA1\u6709\u6709\u6548\u7684\u6210\u7EE9\u6570\u636E\uFF0C\u8BF7\u5148\u5F55\u5165\u6210\u7EE9\u3002'); return; }
 
-    // 娓叉煋鍥捐〃
+    // \u6E32\u67D3\u56FE\u8868
     document.getElementById('chartSection').style.display = 'block';
     if (chartInstance) chartInstance.destroy();
     const ctx = document.getElementById('scoreChart').getContext('2d');
@@ -456,7 +456,7 @@ function generateChart() {
                 legend: { position: 'top', labels: { font: { size: 13 }, usePointStyle: true, padding: 18 } },
                 tooltip: {
                     callbacks: {
-                        label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y} 鍒哷
+                        label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y} \u5206`
                     }
                 }
             },
@@ -465,11 +465,11 @@ function generateChart() {
                     beginAtZero: false,
                     suggestedMin: 0,
                     suggestedMax: 100,
-                    title: { display: true, text: '鍒嗘暟', font: { size: 13 } },
+                    title: { display: true, text: '\u5206\u6570', font: { size: 13 } },
                     grid: { color: '#f0f0f0' }
                 },
                 x: {
-                    title: { display: true, text: '鑰冭瘯', font: { size: 13 } },
+                    title: { display: true, text: '\u8003\u8BD5', font: { size: 13 } },
                     grid: { color: '#f5f5f5' }
                 }
             },
@@ -477,7 +477,7 @@ function generateChart() {
         }
     });
 
-    // 鐢熸垚瓒嬪娍鍒嗘瀽
+    // \u751F\u6210\u8D8B\u52BF\u5206\u6790
     window._lastValidData = validData;
     window._lastExamLabels = labels;
     generateAnalysis(validData, labels);
@@ -493,7 +493,7 @@ function generateAnalysis(validData, examLabels) {
         if (scores.length < 2) {
             card.innerHTML += `<div class="analysis-item">
                 <div class="subject-title" style="color:${sub.color}">${sub.name}</div>
-                <p class="trend-flat">鏁版嵁涓嶈冻锛屾棤娉曞垎鏋愯秼鍔裤€?/p>
+                <p class="trend-flat">\u6570\u636E\u4E0D\u8DB3\uFF0C\u65E0\u6CD5\u5206\u6790\u8D8B\u52BF\u3002</p>
             </div>`;
             return;
         }
@@ -503,22 +503,22 @@ function generateAnalysis(validData, examLabels) {
         const max = Math.max(...scores), min = Math.min(...scores);
         const avg = (scores.reduce((a,b) => a+b, 0) / scores.length).toFixed(1);
 
-        // 瓒嬪娍鍒ゆ柇
+        // \u8D8B\u52BF\u5224\u65AD
         let trend, trendClass, arrow, desc;
         if (Math.abs(diff) < 2) {
-            trend = '鍩烘湰绋冲畾'; trendClass = 'trend-flat'; arrow = '鉃★笍';
-            desc = `${sub.name}鎴愮哗鍦?${min}~${max} 鍒嗕箣闂存尝鍔紝鏁翠綋淇濇寔绋冲畾锛屽缓璁户缁繚鎸佸綋鍓嶅涔犺妭濂忋€俙;
+            trend = '\u57FA\u672C\u7A33\u5B9A'; trendClass = 'trend-flat'; arrow = '\u27A1\uFE0F';
+            desc = `${sub.name}\u6210\u7EE9\u5728 ${min}~${max} \u5206\u4E4B\u95F4\u6CE2\u52A8\uFF0C\u6574\u4F53\u4FDD\u6301\u7A33\u5B9A\uFF0C\u5EFA\u8BAE\u7EE7\u7EED\u4FDD\u6301\u5F53\u524D\u5B66\u4E60\u8282\u594F\u3002`;
         } else if (diff > 0) {
-            trend = '涓婂崌瓒嬪娍'; trendClass = 'trend-up'; arrow = '馃搱';
-            desc = `${sub.name}鎴愮哗鍛堜笂鍗囪秼鍔匡紝浠?${first} 鍒嗗崌鑷?${last} 鍒嗭紝鎻愰珮浜?${diff} 鍒嗐€傜户缁繚鎸侊紒`;
+            trend = '\u4E0A\u5347\u8D8B\u52BF'; trendClass = 'trend-up'; arrow = '\u{1F4C8}';
+            desc = `${sub.name}\u6210\u7EE9\u5448\u4E0A\u5347\u8D8B\u52BF\uFF0C\u4ECE ${first} \u5206\u5347\u81F3 ${last} \u5206\uFF0C\u63D0\u9AD8\u4E86 ${diff} \u5206\u3002\u7EE7\u7EED\u4FDD\u6301\uFF01`;
         } else {
-            trend = '涓嬮檷瓒嬪娍'; trendClass = 'trend-down'; arrow = '馃搲';
-            desc = `${sub.name}鎴愮哗鍛堜笅闄嶈秼鍔匡紝浠?${first} 鍒嗛檷鑷?${last} 鍒嗭紝涓嬮檷浜?${Math.abs(diff)} 鍒嗭紝寤鸿鍔犲己璇ョ鐩殑澶嶄範銆俙;
+            trend = '\u4E0B\u964D\u8D8B\u52BF'; trendClass = 'trend-down'; arrow = '\u{1F4C9}';
+            desc = `${sub.name}\u6210\u7EE9\u5448\u4E0B\u964D\u8D8B\u52BF\uFF0C\u4ECE ${first} \u5206\u964D\u81F3 ${last} \u5206\uFF0C\u4E0B\u964D\u4E86 ${Math.abs(diff)} \u5206\uFF0C\u5EFA\u8BAE\u52A0\u5F3A\u8BE5\u79D1\u76EE\u7684\u590D\u4E60\u3002`;
         }
 
         card.innerHTML += `<div class="analysis-item">
-            <div class="subject-title" style="color:${sub.color}">${arrow} ${sub.name}锛?{trend}</div>
-            <p class="${trendClass}">鏈€鏂版垚缁╋細<strong>${last}</strong> 鍒?| 鏈€楂橈細<strong>${max}</strong> 鍒?| 鏈€浣庯細<strong>${min}</strong> 鍒?| 骞冲潎锛?strong>${avg}</strong> 鍒?/p>
+            <div class="subject-title" style="color:${sub.color}">${arrow} ${sub.name}\uFF1A${trend}</div>
+            <p class="${trendClass}">\u6700\u65B0\u6210\u7EE9\uFF1A<strong>${last}</strong> \u5206 | \u6700\u9AD8\uFF1A<strong>${max}</strong> \u5206 | \u6700\u4F4E\uFF1A<strong>${min}</strong> \u5206 | \u5E73\u5747\uFF1A<strong>${avg}</strong> \u5206</p>
             <p>${desc}</p>
         </div>`;
     });
@@ -526,11 +526,11 @@ function generateAnalysis(validData, examLabels) {
 
 init();
 
-// 淇濆瓨鏈€鏂颁竴娆＄敓鎴愮殑鏁版嵁锛屼緵 AI 璇勪环浣跨敤
+// \u4FDD\u5B58\u6700\u65B0\u4E00\u6B21\u751F\u6210\u7684\u6570\u636E\uFF0C\u4F9B AI \u8BC4\u4EF7\u4F7F\u7528
 let lastValidData = null;
 let lastExamLabels = null;
 
-// 鍦?generateChart 鏈熬鍚敤 AI 鎸夐挳
+// \u5728 generateChart \u672B\u5C3E\u542F\u7528 AI \u6309\u94AE
 const origGenerate = generateChart;
 generateChart = function() {
     origGenerate();
@@ -542,15 +542,15 @@ generateChart = function() {
     }
 };
 
-// 璋冪敤閫氫箟鍗冮棶 AI 璇勪环
+// \u8C03\u7528\u901A\u4E49\u5343\u95EE AI \u8BC4\u4EF7
 async function callAI() {
     const apiKey = document.getElementById('apiKey').value.trim();
     if (!apiKey) {
-        alert('璇峰厛閰嶇疆 API Key');
+        alert('\u8BF7\u5148\u914D\u7F6E API Key');
         return;
     }
     if (!lastValidData || !lastExamLabels) {
-        alert('璇峰厛鐢熸垚鍥捐〃');
+        alert('\u8BF7\u5148\u751F\u6210\u56FE\u8868');
         return;
     }
 
@@ -560,46 +560,46 @@ async function callAI() {
 
     section.style.display = 'block';
     content.className = 'ai-content loading';
-    content.textContent = '馃 AI 姝ｅ湪鍒嗘瀽鎴愮哗鏁版嵁锛岃绋嶅€?..';
+    content.textContent = '\u{1F914} AI \u6B63\u5728\u5206\u6790\u6210\u7EE9\u6570\u636E\uFF0C\u8BF7\u7A0D\u5019...';
     btn.disabled = true;
-    btn.textContent = '鈴?鍒嗘瀽涓?..';
+    btn.textContent = '\u23F3 \u5206\u6790\u4E2D...';
 
-    // 鏋勫缓 prompt
-    let prompt = '浠ヤ笅鏄鐢熷娆¤€冭瘯鐨勬垚缁╁拰閿欓鏁版嵁锛岃杩涜鈥滈攼璇勨€濆紡鍒嗘瀽銆俓n\n';
-    prompt += '鑰冭瘯锛? + lastExamLabels.join(' 鈫?') + '\n\n';
-    prompt += '鍚勭鎴愮哗锛歕n';
+    // \u6784\u5EFA prompt
+    let prompt = '\u4EE5\u4E0B\u662F\u5B66\u751F\u591A\u6B21\u8003\u8BD5\u7684\u6210\u7EE9\u548C\u9519\u9898\u6570\u636E\uFF0C\u8BF7\u8FDB\u884C\u201C\u9510\u8BC4\u201D\u5F0F\u5206\u6790\u3002\n\n';
+    prompt += '\u8003\u8BD5\uFF1A' + lastExamLabels.join(' \u2192 ') + '\n\n';
+    prompt += '\u5404\u79D1\u6210\u7EE9\uFF1A\n';
     lastValidData.forEach(sub => {
         const scores = sub.scores.filter(v => v !== null);
-        prompt += `- ${sub.name}锛?{scores.join(' 鈫?')}\n`;
+        prompt += `- ${sub.name}\uFF1A${scores.join(' \u2192 ')}\n`;
     });
 
-    // 鏀堕泦閿欓鍥剧墖鏁版嵁
+    // \u6536\u96C6\u9519\u9898\u56FE\u7247\u6570\u636E
     let hasWrongQ = false;
-    let wrongQText = '\n閿欓鍥剧墖璁板綍锛歕n';
+    let wrongQText = '\n\u9519\u9898\u56FE\u7247\u8BB0\u5F55\uFF1A\n';
     examData.forEach(exam => {
         let examWrong = '';
         exam.subjects.forEach(sub => {
             if (sub.wrongImages && sub.wrongImages.length > 0) {
-                examWrong += `  - ${sub.name}锛?{sub.wrongImages.length} 寮犻敊棰樺浘鐗嘰n`;
+                examWrong += `  - ${sub.name}\uFF1A${sub.wrongImages.length} \u5F20\u9519\u9898\u56FE\u7247\n`;
             }
         });
         if (examWrong) {
-            wrongQText += `銆?{exam.name}銆慭n${examWrong}`;
+            wrongQText += `\u3010${exam.name}\u3011\n${examWrong}`;
             hasWrongQ = true;
         }
     });
     if (hasWrongQ) {
         prompt += wrongQText;
-        prompt += '锛堝鐢熷凡涓婁紶閿欓鍥剧墖锛岃鏍规嵁閿欓鏁伴噺鍜岀鐩垎甯冩帹娴嬭杽寮辩偣锛塡n';
+        prompt += '\uFF08\u5B66\u751F\u5DF2\u4E0A\u4F20\u9519\u9898\u56FE\u7247\uFF0C\u8BF7\u6839\u636E\u9519\u9898\u6570\u91CF\u548C\u79D1\u76EE\u5206\u5E03\u63A8\u6D4B\u8584\u5F31\u70B9\uFF09\n';
     }
 
-    prompt += '\n瑕佹眰锛歕n';
-    prompt += '1. 璇磋瘽瑕佺簿绠€銆佺洿鎺ャ€佷笉搴熻瘽锛屼笉瑕佸濂楀拰榧撹垶\n';
-    prompt += '2. 閿愯瘎椋庢牸锛氱洿瑷€涓嶈鎸囧嚭闂锛屼笉瑕佹俯鏌斿畨鎱癨n';
-    prompt += '3. 姣忕鐢ㄤ竴鍙ヨ瘽鐐硅瘎瓒嬪娍锛屼竴閽堣琛€\n';
-    prompt += '4. 濡傛灉鏈夐敊棰樻暟鎹紝缁撳悎閿欓鎸囧嚭鐭ヨ瘑钖勫急鐐筡n';
-    prompt += '5. 鏈€鍚庣粰 3 鏉℃渶鍏抽敭鐨勬敼杩涘缓璁紝姣忔潯涓嶈秴杩?20 瀛梊n';
-    prompt += '6. 鎬诲瓧鏁版帶鍒跺湪 300 瀛椾互鍐?;
+    prompt += '\n\u8981\u6C42\uFF1A\n';
+    prompt += '1. \u8BF4\u8BDD\u8981\u7CBE\u7B80\u3001\u76F4\u63A5\u3001\u4E0D\u5E9F\u8BDD\uFF0C\u4E0D\u8981\u5BA2\u5957\u548C\u9F13\u821E\n';
+    prompt += '2. \u9510\u8BC4\u98CE\u683C\uFF1A\u76F4\u8A00\u4E0D\u8BB3\u6307\u51FA\u95EE\u9898\uFF0C\u4E0D\u8981\u6E29\u67D4\u5B89\u6170\n';
+    prompt += '3. \u6BCF\u79D1\u7528\u4E00\u53E5\u8BDD\u70B9\u8BC4\u8D8B\u52BF\uFF0C\u4E00\u9488\u89C1\u8840\n';
+    prompt += '4. \u5982\u679C\u6709\u9519\u9898\u6570\u636E\uFF0C\u7ED3\u5408\u9519\u9898\u6307\u51FA\u77E5\u8BC6\u8584\u5F31\u70B9\n';
+    prompt += '5. \u6700\u540E\u7ED9 3 \u6761\u6700\u5173\u952E\u7684\u6539\u8FDB\u5EFA\u8BAE\uFF0C\u6BCF\u6761\u4E0D\u8D85\u8FC7 20 \u5B57\n';
+    prompt += '6. \u603B\u5B57\u6570\u63A7\u5236\u5728 300 \u5B57\u4EE5\u5185';
 
     try {
         const response = await fetch('/api/ai', {
@@ -610,7 +610,7 @@ async function callAI() {
             body: JSON.stringify({
                 model: 'qwen-plus',
                 messages: [
-                    { role: 'system', content: '浣犳槸涓€浣嶄弗鏍间絾璐熻矗鐨勨€滄瘨鑸屸€濇暀甯堬紝璇磋瘽绮剧畝鐩存帴锛屼竴閽堣琛€銆備笉瀹㈠銆佷笉榧撹垶銆佷笉搴熻瘽銆傛寚鍑洪棶棰樿鐙狅紝缁欏缓璁鍑嗐€? },
+                    { role: 'system', content: '\u4F60\u662F\u4E00\u4F4D\u4E25\u683C\u4F46\u8D1F\u8D23\u7684\u201C\u6BD2\u820C\u201D\u6559\u5E08\uFF0C\u8BF4\u8BDD\u7CBE\u7B80\u76F4\u63A5\uFF0C\u4E00\u9488\u89C1\u8840\u3002\u4E0D\u5BA2\u5957\u3001\u4E0D\u9F13\u821E\u3001\u4E0D\u5E9F\u8BDD\u3002\u6307\u51FA\u95EE\u9898\u8981\u72E0\uFF0C\u7ED9\u5EFA\u8BAE\u8981\u51C6\u3002' },
                     { role: 'user', content: prompt }
                 ],
                 temperature: 0.7,
@@ -629,22 +629,22 @@ async function callAI() {
         content.className = 'ai-content';
         content.textContent = aiText;
 
-        // 鏇存柊 API 鐘舵€?
-        document.getElementById('apiStatus').textContent = '鉁?杩炴帴鎴愬姛';
+        // \u66F4\u65B0 API \u72B6\u6001
+        document.getElementById('apiStatus').textContent = '\u2713 \u8FDE\u63A5\u6210\u529F';
         document.getElementById('apiStatus').className = 'status ok';
 
     } catch (err) {
         content.className = 'ai-content';
-        content.innerHTML = '<span class="error">鉂?AI 璋冪敤澶辫触锛? + err.message + '</span>';
-        document.getElementById('apiStatus').textContent = '鉁?璋冪敤澶辫触';
+        content.innerHTML = '<span class="error">\u274C AI \u8C03\u7528\u5931\u8D25\uFF1A' + err.message + '</span>';
+        document.getElementById('apiStatus').textContent = '\u2717 \u8C03\u7528\u5931\u8D25';
         document.getElementById('apiStatus').className = 'status err';
     } finally {
         btn.disabled = false;
-        btn.textContent = '馃 AI 閿愯瘎';
+        btn.textContent = '\u{1F916} AI \u9510\u8BC4';
     }
 }
 
-// 淇濆瓨鏁版嵁鍒版祻瑙堝櫒鏈満
+// \u4FDD\u5B58\u6570\u636E\u5230\u6D4F\u89C8\u5668\u672C\u673A
 function saveLocalData() {
     try {
         const payload = examData.map(exam => ({
@@ -657,7 +657,7 @@ function saveLocalData() {
         }));
         localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(payload));
     } catch (err) {
-        console.log('鏈満鏁版嵁淇濆瓨澶辫触', err);
+        console.log('\u672C\u673A\u6570\u636E\u4FDD\u5B58\u5931\u8D25', err);
     }
 }
 
@@ -669,11 +669,11 @@ function restoreLocalData() {
             saveLocalData();
             renderExamList();
             const status = document.getElementById('saveStatus');
-            status.textContent = '鉁?宸插姞杞芥湰鏈哄浠?;
+            status.textContent = '\u2713 \u5DF2\u52A0\u8F7D\u672C\u673A\u5907\u4EFD';
             status.style.color = '#faad14';
         }
     } catch (err) {
-        console.log('鏈満澶囦唤璇诲彇澶辫触', err);
+        console.log('\u672C\u673A\u5907\u4EFD\u8BFB\u53D6\u5931\u8D25', err);
     }
 }
 
@@ -681,7 +681,7 @@ async function saveData() {
     const btn = document.getElementById('btnSave');
     const status = document.getElementById('saveStatus');
     btn.disabled = true;
-    btn.textContent = '鈴?淇濆瓨涓?..';
+    btn.textContent = '\u23F3 \u4FDD\u5B58\u4E2D...';
     status.textContent = '';
 
     const payload = examData.map(exam => ({
@@ -702,18 +702,18 @@ async function saveData() {
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        status.textContent = '鉁?宸蹭繚瀛?' + new Date().toLocaleTimeString();
+        status.textContent = '\u2713 \u5DF2\u4FDD\u5B58 ' + new Date().toLocaleTimeString();
         status.style.color = '#52c41a';
     } catch (err) {
-        status.textContent = '鉁?淇濆瓨澶辫触锛? + err.message;
+        status.textContent = '\u2717 \u4FDD\u5B58\u5931\u8D25\uFF1A' + err.message;
         status.style.color = '#ff4d4f';
     } finally {
         btn.disabled = false;
-        btn.textContent = '馃捑 淇濆瓨鏁版嵁';
+        btn.textContent = '\u{1F4BE} \u4FDD\u5B58\u6570\u636E';
     }
 }
 
-// 浠庢湇鍔″櫒鍔犺浇鏁版嵁
+// \u4ECE\u670D\u52A1\u5668\u52A0\u8F7D\u6570\u636E
 async function loadData() {
     const status = document.getElementById('saveStatus');
     try {
@@ -731,18 +731,17 @@ async function loadData() {
             })));
             saveLocalData();
             renderExamList();
-            status.textContent = '鉁?宸插姞杞藉巻鍙叉暟鎹?;
+            status.textContent = '\u2713 \u5DF2\u52A0\u8F7D\u5386\u53F2\u6570\u636E';
             status.style.color = '#52c41a';
         }
     } catch (err) {
-        console.log('鍔犺浇鏁版嵁澶辫触锛屼娇鐢ㄩ粯璁ゆ暟鎹?, err);
+        console.log('\u52A0\u8F7D\u6570\u636E\u5931\u8D25\uFF0C\u4F7F\u7528\u9ED8\u8BA4\u6570\u636E', err);
     }
 }
 
-// 鍚姩鏃朵粠鏈嶅姟鍣ㄥ姞杞?
+// \u542F\u52A8\u65F6\u4ECE\u670D\u52A1\u5668\u52A0\u8F7D
 restoreLocalData();
 loadData();
 </script>
 </body>
 </html>
-
